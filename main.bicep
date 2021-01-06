@@ -76,3 +76,8 @@ module peering2 './101-resourcelibrary/vnetPeering.bicep' = {
   }
 }
 
+module nsg1 './101-resourcelibrary/networkSecurityGroups.bicep' = {
+  name: 'nsgTrust'
+  scope: resourceGroup(rg1.name)
+  params: {}
+}
