@@ -1,6 +1,6 @@
-var location = resourceGroup().location
+param location string = '${resourceGroup().location}'
 
-resource nsghub 'Microsoft.Network/networkSecurityGroups@2020-05-01' = {
+resource nsghub 'Microsoft.Network/networkSecurityGroups@2020-06-01' = {
   name: 'nsgTrust'
   location: location
   properties: {

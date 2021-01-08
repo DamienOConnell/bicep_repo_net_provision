@@ -21,6 +21,9 @@ resource rg2 'Microsoft.Resources/resourceGroups@2020-06-01' = {
 module vnet1 './101-resourcelibrary/virtualNetwork2Subnets.bicep' = {
   name: 'vnet1'
   scope: resourceGroup(rg1.name)
+  dependsOn: [
+    // nsgHub1
+  ]
   params: {
     vnetName: vnet1Name
     addressPrefixes: [
@@ -76,8 +79,16 @@ module peering2 './101-resourcelibrary/vnetPeering.bicep' = {
   }
 }
 
-module nsg1 './101-resourcelibrary/networkSecurityGroups.bicep' = {
-  name: 'nsgTrust'
+module nsgHub1 './101-resourcelibrary/networkSecurityGroups.bicep' = {
+  name: 'nsgHub1'
   scope: resourceGroup(rg1.name)
+  dependsOn: []
+  params: {}
+}
+
+module nsgSpoke1 './101-resourcelibrary/networkSecurityGroups.bicep' = {
+  name: 'nsgSpoke1'
+  scope: resourceGroup(rg2.name)
+  dependsOn: []
   params: {}
 }

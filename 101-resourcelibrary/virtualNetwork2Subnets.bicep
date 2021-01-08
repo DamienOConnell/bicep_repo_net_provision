@@ -18,12 +18,14 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
         name: subnet1Name
         properties: {
           addressPrefix: subnet1AddressPrefix
+          // networkSecurityGroup: subnetNSG
         }
       }
       {
         name: subnet2Name
         properties: {
           addressPrefix: subnet2AddressPrefix
+          // networkSecurityGroup: subnetNSG
         }
       }
     ]

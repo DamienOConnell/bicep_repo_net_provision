@@ -342,6 +342,196 @@
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rg1Name')), 'Microsoft.Resources/deployments', 'vnet1')]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('rg2Name')), 'Microsoft.Resources/deployments', 'vnet2')]"
       ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "nsgHub1",
+      "resourceGroup": "[parameters('rg1Name')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {},
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "location": {
+              "type": "string",
+              "defaultValue": "[resourceGroup().location]"
+            }
+          },
+          "functions": [],
+          "resources": [
+            {
+              "type": "Microsoft.Network/networkSecurityGroups",
+              "apiVersion": "2020-06-01",
+              "name": "nsgTrust",
+              "location": "[parameters('location')]",
+              "properties": {
+                "securityRules": [
+                  {
+                    "name": "inbound_VNet",
+                    "id": "100",
+                    "properties": {
+                      "priority": 100,
+                      "access": "Allow",
+                      "direction": "Inbound",
+                      "sourceAddressPrefix": "10.130.0.0/21",
+                      "sourcePortRange": "*",
+                      "destinationAddressPrefix": "*",
+                      "destinationPortRange": "*",
+                      "protocol": "*"
+                    }
+                  },
+                  {
+                    "name": "inbound_Deny",
+                    "id": "110",
+                    "properties": {
+                      "priority": 110,
+                      "access": "Deny",
+                      "direction": "Inbound",
+                      "sourceAddressPrefix": "*",
+                      "sourcePortRange": "*",
+                      "destinationAddressPrefix": "*",
+                      "destinationPortRange": "*",
+                      "protocol": "*"
+                    }
+                  },
+                  {
+                    "name": "outbound_VNet",
+                    "id": "100",
+                    "properties": {
+                      "priority": 100,
+                      "access": "Allow",
+                      "direction": "Outbound",
+                      "sourceAddressPrefix": "10.130.0.0/21",
+                      "sourcePortRange": "*",
+                      "destinationAddressPrefix": "*",
+                      "destinationPortRange": "*",
+                      "protocol": "*"
+                    }
+                  },
+                  {
+                    "name": "outbound_Deny",
+                    "id": "110",
+                    "properties": {
+                      "priority": 110,
+                      "access": "Deny",
+                      "direction": "Outbound",
+                      "sourceAddressPrefix": "*",
+                      "sourcePortRange": "*",
+                      "destinationAddressPrefix": "*",
+                      "destinationPortRange": "*",
+                      "protocol": "*"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/resourceGroups', parameters('rg1Name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "nsgSpoke1",
+      "resourceGroup": "[parameters('rg2Name')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {},
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "location": {
+              "type": "string",
+              "defaultValue": "[resourceGroup().location]"
+            }
+          },
+          "functions": [],
+          "resources": [
+            {
+              "type": "Microsoft.Network/networkSecurityGroups",
+              "apiVersion": "2020-06-01",
+              "name": "nsgTrust",
+              "location": "[parameters('location')]",
+              "properties": {
+                "securityRules": [
+                  {
+                    "name": "inbound_VNet",
+                    "id": "100",
+                    "properties": {
+                      "priority": 100,
+                      "access": "Allow",
+                      "direction": "Inbound",
+                      "sourceAddressPrefix": "10.130.0.0/21",
+                      "sourcePortRange": "*",
+                      "destinationAddressPrefix": "*",
+                      "destinationPortRange": "*",
+                      "protocol": "*"
+                    }
+                  },
+                  {
+                    "name": "inbound_Deny",
+                    "id": "110",
+                    "properties": {
+                      "priority": 110,
+                      "access": "Deny",
+                      "direction": "Inbound",
+                      "sourceAddressPrefix": "*",
+                      "sourcePortRange": "*",
+                      "destinationAddressPrefix": "*",
+                      "destinationPortRange": "*",
+                      "protocol": "*"
+                    }
+                  },
+                  {
+                    "name": "outbound_VNet",
+                    "id": "100",
+                    "properties": {
+                      "priority": 100,
+                      "access": "Allow",
+                      "direction": "Outbound",
+                      "sourceAddressPrefix": "10.130.0.0/21",
+                      "sourcePortRange": "*",
+                      "destinationAddressPrefix": "*",
+                      "destinationPortRange": "*",
+                      "protocol": "*"
+                    }
+                  },
+                  {
+                    "name": "outbound_Deny",
+                    "id": "110",
+                    "properties": {
+                      "priority": 110,
+                      "access": "Deny",
+                      "direction": "Outbound",
+                      "sourceAddressPrefix": "*",
+                      "sourcePortRange": "*",
+                      "destinationAddressPrefix": "*",
+                      "destinationPortRange": "*",
+                      "protocol": "*"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/resourceGroups', parameters('rg2Name'))]"
+      ]
     }
   ]
 }
