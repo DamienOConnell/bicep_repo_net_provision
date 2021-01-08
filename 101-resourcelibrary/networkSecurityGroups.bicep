@@ -1,7 +1,8 @@
 param location string = '${resourceGroup().location}'
+param nsgName string
 
 resource nsghub 'Microsoft.Network/networkSecurityGroups@2020-06-01' = {
-  name: 'nsgTrust'
+  name: nsgName
   location: location
   properties: {
     securityRules: [

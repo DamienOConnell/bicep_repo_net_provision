@@ -7,6 +7,8 @@ param rg2Name string
 param rg2Location string = 'australiaeast'
 param vnet1Name string
 param vnet2Name string
+param nsgHubName string
+param nsgSpokeName string
 
 resource rg1 'Microsoft.Resources/resourceGroups@2020-06-01' = {
   name: '${rg1Name}'
@@ -83,12 +85,16 @@ module nsgHub1 './101-resourcelibrary/networkSecurityGroups.bicep' = {
   name: 'nsgHub1'
   scope: resourceGroup(rg1.name)
   dependsOn: []
-  params: {}
+  params: {
+    nsgName: nsgHubName
+  }
 }
 
 module nsgSpoke1 './101-resourcelibrary/networkSecurityGroups.bicep' = {
   name: 'nsgSpoke1'
   scope: resourceGroup(rg2.name)
   dependsOn: []
-  params: {}
+  params: {
+    nsgName: nsgSpokeName
+  }
 }
