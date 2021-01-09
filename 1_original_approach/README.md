@@ -12,3 +12,7 @@ Now extended with addition of:
 
 NSGs for all the subnets.
 Routing tables to attach to each subnet.
+
+## TO-DO NEXT
+
+Tags are easy to apply, see the hub-network.bicep in Aaron's repo.

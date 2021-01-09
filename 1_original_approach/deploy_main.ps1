@@ -11,4 +11,5 @@ New-AzDeployment -Name "bicepNetProvisionDemo" `
     -rg2Name RG-NET-SPOKE `
     -vnet2Name VNETSPOKE `
     -nsgHubName nsgHUB `
-    -nsgSpokeName nsgSPOKE
+    -nsgSpokeName nsgSPOKE `
+    -Confirm

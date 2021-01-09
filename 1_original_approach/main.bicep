@@ -2,9 +2,11 @@
 targetScope = 'Main'
 
 param rg1Name string
-param rg1Location string = 'australiaeast'
+// param rg1Location string = 'australiaeast'
+param rg1Location string = resourceGroup().location
 param rg2Name string
-param rg2Location string = 'australiaeast'
+// param rg2Location string = 'australiaeast'
+param rg2Location string = resourceGroup().location
 param vnet1Name string
 param vnet2Name string
 param nsgHubName string
@@ -98,3 +100,62 @@ module nsgSpoke1 './101-resourcelibrary/networkSecurityGroups.bicep' = {
     nsgName: nsgSpokeName
   }
 }
+
+param nsgHubRules array [
+{
+name: 'inbound_VNet'
+id: '100'
+properties: {
+priority: 100
+access: 'Allow'
+direction: 'Inbound'
+sourceAddressPrefix: '10.130.0.0/21'
+sourcePortRange: '*'
+destinationAddressPrefix: '*'
+destinationPortRange: '*'
+protocol: '*'
+}
+}
+{
+name: 'inbound_Deny'
+id: '110'
+properties: {
+priority: 110
+access: 'Deny'
+direction: 'Inbound'
+sourceAddressPrefix: '*'
+sourcePortRange: '*'
+destinationAddressPrefix: '*'
+destinationPortRange: '*'
+protocol: '*'
+}
+}
+{
+name: 'outbound_VNet'
+id: '100'
+properties: {
+priority: 100
+access: 'Allow'
+direction: 'Outbound'
+sourceAddressPrefix: '10.130.0.0/21'
+sourcePortRange: '*'
+destinationAddressPrefix: '*'
+destinationPortRange: '*'
+protocol: '*'
+}
+}
+{
+name: 'outbound_Deny'
+id: '110'
+properties: {
+priority: 110
+access: 'Deny'
+direction: 'Outbound'
+sourceAddressPrefix: '*'
+sourcePortRange: '*'
+destinationAddressPrefix: '*'
+destinationPortRange: '*'
+protocol: '*'
+}
+}
+]
